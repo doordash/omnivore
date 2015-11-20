@@ -1,0 +1,5 @@
+.eggs
+omnivore.egg-info
+*.pyc
+venv
+.cache
