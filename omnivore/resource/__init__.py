@@ -55,9 +55,17 @@ class OmnivoreLocationResource(OmnivoreResource):
     def list_url(cls, location_id):
         return client.build_url('locations/') + location_id + '/'
 
+    @classmethod
+    def retrieve_url(cls, location_id, instance_id):
+        return cls.list_url(location_id) + instance_id + '/'
+
     def __init__(self, location_id, **kwargs):
         self.location_id = location_id
         super(OmnivoreLocationResource, self).__init__(**kwargs)
+
+    @property
+    def instance_url(self):
+        return self.__class__.retrieve_url(self.location_id, self.id)
 
     def __unicode__(self):
         return '<Omnivore::{} {} at Location {}>'.format(

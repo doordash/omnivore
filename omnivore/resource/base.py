@@ -22,6 +22,25 @@ class Location(OmnivoreResource):
         self.phone = kwargs['phone']
         self.website = kwargs['website']
 
+    # Creating related objects
+
+    def open_ticket(self, employee_id, order_type_id, revenue_center_id,
+                    table_id, guest_count, name, auto_send):
+        ticket = Ticket.open(
+            self.id,
+            employee_id,
+            order_type_id,
+            revenue_center_id,
+            table_id,
+            guest_count,
+            name,
+            auto_send
+        )
+
+        # TODO: add ticket to own tickets or refresh
+
+        return ticket
+
     # Retrieving related objects
 
     @cached_property

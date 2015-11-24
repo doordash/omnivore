@@ -36,11 +36,26 @@ class OmnivoreTicketItemResource(OmnivoreTicketResource):
 
 class Ticket(OmnivoreLocationResource):
 
-    # TODO: open, void
-
     @classmethod
     def list_url(cls, location_id):
         return super(Ticket, cls).list_url(location_id) + 'tickets/'
+
+    @classmethod
+    def open(cls, location_id, employee_id, order_type_id, revenue_center_id,
+             table_id, guest_count, name, auto_send):
+        data = {
+            'employee': employee_id,
+            'order_type': order_type_id,
+            'revenue_center': revenue_center_id,
+            'table': table_id,
+            'guest_count': guest_count,
+            'name': name,
+            'auto_send': auto_send
+        }
+
+        res = client.post(cls.list_url(location_id), data)
+
+        return cls(location_id, **res)
 
     def refresh_from(self, **kwargs):
         self.auto_send = kwargs['auto_send']
@@ -80,6 +95,11 @@ class Ticket(OmnivoreLocationResource):
             self.voided_items = [MenuItem(self.location_id, **item)
                                  for item
                                  in voided_items]
+
+    def void(self):
+        res = client.post(self.instance_url, {'void': True})
+
+        self.refresh_from(**res)
 
     # Retrieving related objects
 

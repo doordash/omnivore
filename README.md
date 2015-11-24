@@ -44,7 +44,26 @@ Objects embedded in API responses are added as properties on each model instance
 Interacting with tickets:
 
 ```python
-# TODO: open/void tickets
+employee_id = 'xxx'
+order_type_id = 'xxx'
+revenue_center_id = 'xxx'
+table_id = 'xxx'
+guest_count = 1
+name = 'Test Ticket'
+auto_send = True
+
+ticket = location.open_ticket(
+    employee_id,
+    order_type_id,
+    revenue_center_id,
+    table_id,
+    guest_count,
+    name,
+    auto_send
+)
+print ticket
+ticket.void()
+
 # TODO: payments
 ```
 
