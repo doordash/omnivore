@@ -32,14 +32,21 @@ class OmnivoreResource(object):
         return self.__class__.retrieve_url(self.id)
 
     def __unicode__(self):
-        return '<{} {}>'.format(
-            self.__class__.__name__,
-            self.id,
-            self.location_id
-        )
+        return '<Omnivore::{} {}>'.format(self.__class__.__name__, self.id)
 
     def __str__(self):
         return unicode(self).encode('utf-8')
+
+    def __repr__(self):
+        attrs = [
+            '\'%s\': %s' % (key, repr(getattr(self, key)))
+            for key
+            in self.__dict__
+        ]
+
+        return '\n{\n\t%s\n}' % (
+            '\n\t'.join(attrs),
+        )
 
 
 class OmnivoreLocationResource(OmnivoreResource):
@@ -51,3 +58,10 @@ class OmnivoreLocationResource(OmnivoreResource):
     def __init__(self, location_id, **kwargs):
         self.location_id = location_id
         super(OmnivoreLocationResource, self).__init__(**kwargs)
+
+    def __unicode__(self):
+        return '<Omnivore::{} {} at Location {}>'.format(
+            self.__class__.__name__,
+            self.id,
+            self.location_id
+        )
