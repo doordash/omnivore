@@ -40,7 +40,7 @@ def get(url):
     except ValueError, e:
         handle_parse_error(e)
 
-    if res.status_code != 200:
+    if not (200 <= res.status_code < 300):
         handle_error_code(json, res.status_code, res.headers)
 
     return json
@@ -57,7 +57,7 @@ def post(url, json):
     except ValueError, e:
         handle_parse_error(e)
 
-    if res.status_code != 200:
+    if not (200 <= res.status_code < 300):
         handle_error_code(json, res.status_code, res.headers)
 
     return json
@@ -83,20 +83,20 @@ def handle_request_error(e):
 
 def handle_error_code(json, status_code, headers):
     if status_code == 400:
-        error = json.get('error', 'Bad request')
-        raise error.InvalidRequestError(error, status_code, headers)
+        err = json.get('error', 'Bad request')
+        raise error.InvalidRequestError(err, status_code, headers)
     elif status_code == 401:
-        error = json.get('error', 'Not authorized')
-        raise error.AuthenticationError(error, status_code, headers)
+        err = json.get('error', 'Not authorized')
+        raise error.AuthenticationError(err, status_code, headers)
     elif status_code == 404:
-        error = json.get('error', 'Not found')
-        raise error.InvalidRequestError(error, status_code, headers)
+        err = json.get('error', 'Not found')
+        raise error.InvalidRequestError(err, status_code, headers)
     elif status_code == 500:
-        error = json.get('error', 'Internal server error')
-        raise error.APIError(error, status_code, headers)
+        err = json.get('error', 'Internal server error')
+        raise error.APIError(err, status_code, headers)
     else:
-        error = json.get('error', 'Unknown status code')
-        raise error.APIError(error, status_code, headers)
+        err = json.get('error', 'Unknown status code ({})'.format(status_code))
+        raise error.APIError(err, status_code, headers)
 
 
 def handle_parse_error(e, status_code=None, headers=None):
