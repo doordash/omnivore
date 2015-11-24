@@ -1,12 +1,17 @@
+import os
+import sys
+
 from setuptools import setup
 from codecs import open
-from os import path
-from omnivore.version import VERSION
 
 # Get the long description from the README.md file
-here = path.abspath(path.dirname(__file__))
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+
+# Don't import omnivore module here, since deps may not be installed
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'omnivore'))
+from version import VERSION
 
 setup(
     name='omnivore',
