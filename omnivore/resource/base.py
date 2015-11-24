@@ -1,5 +1,6 @@
-from omnivore import client, error
+from omnivore import client
 from omnivore.resource import OmnivoreResource, OmnivoreLocationResource
+from omnivore.resource.menu import Menu
 from omnivore.util import (
     cached_property,
     get_embedded_object,

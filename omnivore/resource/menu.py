@@ -1,3 +1,4 @@
+from omnivore import client
 from omnivore.resource.base import OmnivoreLocationResource
 from omnivore.util import (
     cached_property,
@@ -58,7 +59,7 @@ class Category(OmnivoreMenuResource):
         self.name = kwargs['name']
 
         if has_embedded_objects(kwargs):
-            items = get_embedded_object(res, 'items')
+            items = get_embedded_object(kwargs, 'items')
             self.items = [MenuItem(self.location_id, **i) for i in items]
 
 
@@ -109,7 +110,8 @@ class ModifierGroup(OmnivoreMenuItemResource):
         self.maximum = kwargs['maximum']
         self.required = kwargs['required']
 
-        # TODO: what is this supposed to return? options or modifiers or menuitemmodifiers?
+        # TODO: what is this supposed to return? options or modifiers or
+        # menuitemmodifiers?
         # if has_embedded_objects(kwargs):
         #     options =
 

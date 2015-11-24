@@ -30,10 +30,8 @@ def get_headers():
 
 
 def get(url):
-    headers = get_headers()
-
     try:
-        res = requests.get(url, headers=headers)
+        res = requests.get(url, headers=get_headers())
     except Exception, e:
         handle_request_error(e)
 
@@ -49,8 +47,6 @@ def get(url):
 
 
 def post(url, json):
-    headers = get_headers()
-
     try:
         res = requests.post(url, headers=get_headers(), json=json)
     except Exception, e:
@@ -86,16 +82,16 @@ def handle_request_error(e):
 
 
 def handle_error_code(json, status_code, headers):
-    if res.status_code == 400:
+    if status_code == 400:
         error = json.get('error', 'Bad request')
         raise error.InvalidRequestError(error, status_code, headers)
-    elif res.status_code == 401:
+    elif status_code == 401:
         error = json.get('error', 'Not authorized')
         raise error.AuthenticationError(error, status_code, headers)
-    elif res.status_code == 404:
+    elif status_code == 404:
         error = json.get('error', 'Not found')
         raise error.InvalidRequestError(error, status_code, headers)
-    elif res.status_code == 500:
+    elif status_code == 500:
         error = json.get('error', 'Internal server error')
         raise error.APIError(error, status_code, headers)
     else:
