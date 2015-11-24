@@ -22,6 +22,22 @@ class OmnivoreTicketResource(OmnivoreLocationResource):
         base_url = super(OmnivoreTicketResource, cls).list_url(location_id)
         return base_url + 'tickets/' + ticket_id + '/'
 
+    @classmethod
+    def retrieve_url(cls, location_id, ticket_id, instance_id):
+        return cls.list_url(location_id, ticket_id) + instance_id + '/'
+
+    def __init__(self, location_id, ticket_id, **kwargs):
+        self.ticket_id = ticket_id
+        super(OmnivoreTicketResource, self).__init__(location_id, **kwargs)
+
+    @property
+    def instance_url(self):
+        return self.__class__.retrieve_url(
+            self.location_id,
+            self.ticket_id,
+            self.id
+        )
+
 
 class OmnivoreTicketItemResource(OmnivoreTicketResource):
 
@@ -32,6 +48,28 @@ class OmnivoreTicketItemResource(OmnivoreTicketResource):
             ticket_id
         )
         return base_url + 'items/' + item_id + '/'
+
+    @classmethod
+    def retrieve_url(cls, location_id, ticket_id, item_id, instance_id):
+        base_url = cls.list_url(location_id, ticket_id, item_id)
+        return base_url + instance_id + '/'
+
+    def __init__(self, location_id, ticket_id, item_id, **kwargs):
+        self.item_id = item_id
+        super(OmnivoreTicketItemResource, self).__init__(
+            location_id,
+            ticket_id,
+            **kwargs
+        )
+
+    @property
+    def instance_url(self):
+        return self.__class__.retrieve_url(
+            self.location_id,
+            self.ticket_id,
+            self.item_id,
+            self.id
+        )
 
 
 class Ticket(OmnivoreLocationResource):

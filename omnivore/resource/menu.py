@@ -22,6 +22,22 @@ class OmnivoreMenuItemResource(OmnivoreMenuResource):
         base_url = super(OmnivoreMenuResource, cls).list_url(location_id)
         return base_url + 'items/' + item_id + '/'
 
+    @classmethod
+    def retrieve_url(cls, location_id, item_id, instance_id):
+        return cls.list_url(location_id, item_id) + instance_id + '/'
+
+    def __init__(self, location_id, item_id, **kwargs):
+        self.item_id = item_id
+        super(OmnivoreTicketResource, self).__init__(location_id, **kwargs)
+
+    @property
+    def instance_url(self):
+        return self.__class__.retrieve_url(
+            self.location_id,
+            self.item_id,
+            self.id
+        )
+
 
 class Menu(object):
 
