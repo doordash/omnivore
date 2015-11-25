@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from omnivore import client, error
 from omnivore.resource import OmnivoreLocationResource
 from omnivore.resource.base import (
@@ -158,6 +159,12 @@ class Ticket(OmnivoreLocationResource):
         }
 
         if price_level:
+            price_level_ids = [pl.id for pl in menu_item.price_levels]
+            if price_level not in price_level_ids:
+                raise error.APIError(
+                    'Unknown price level for item {}'.format(menu_item.id)
+                )
+
             data['price_level'] = price_level
 
         if comment:
