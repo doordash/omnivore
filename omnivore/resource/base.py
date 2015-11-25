@@ -107,9 +107,11 @@ class Table(OmnivoreLocationResource):
 
         if has_embedded_objects(kwargs):
             open_tickets = get_embedded_object(kwargs, 'open_tickets')
-            self.open_tickets = [Ticket(self.location_id, **ticket)
-                                 for ticket
-                                 in open_tickets]
+            self.open_tickets = [
+                Ticket(self.location_id, **ticket)
+                for ticket
+                in open_tickets
+            ]
 
             revenue_center = get_embedded_object(kwargs, 'revenue_center')
             self.revenue_center = RevenueCenter(
@@ -165,9 +167,11 @@ class RevenueCenter(OmnivoreLocationResource):
 
         if has_embedded_objects(kwargs):
             open_tickets = get_embedded_object(kwargs, 'open_tickets')
-            self.open_tickets = [Ticket(self.location_id, **ticket)
-                                 for ticket
-                                 in open_tickets]
+            self.open_tickets = [
+                Ticket(self.location_id, **ticket)
+                for ticket
+                in open_tickets
+            ]
 
             tables = get_embedded_object(kwargs, 'tables')
             self.tables = [Table(self.location_id, **t) for t in tables]

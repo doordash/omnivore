@@ -110,9 +110,11 @@ class Ticket(OmnivoreLocationResource):
             self.employee = Employee(self.location_id, **employee)
 
             discounts = get_embedded_object(kwargs, 'discounts')
-            self.discounts = [TicketDiscount(self.location_id, **discount)
-                              for discount
-                              in discounts]
+            self.discounts = [
+                TicketDiscount(self.location_id, **discount)
+                for discount
+                in discounts
+            ]
 
             order_type = get_embedded_object(kwargs, 'order_type')
             self.order_type = OrderType(self.location_id, **order_type)
@@ -130,9 +132,11 @@ class Ticket(OmnivoreLocationResource):
             self.table = Table(self.location_id, **table)
 
             voided_items = get_embedded_object(kwargs, 'voided_items')
-            self.voided_items = [MenuItem(self.location_id, **item)
-                                 for item
-                                 in voided_items]
+            self.voided_items = [
+                MenuItem(self.location_id, **item)
+                for item
+                in voided_items
+            ]
 
     def void(self):
         res = client.post(self.instance_url, {'void': True})
@@ -194,9 +198,11 @@ class TicketItem(OmnivoreTicketResource):
             self.menu_item = MenuItem(self.location_id, **menu_item)
 
             modifiers = get_embedded_object(kwargs, 'modifiers')
-            self.modifiers = [TicketItemModifier(self.location_id, **modifier)
-                              for modifier
-                              in modifiers]
+            self.modifiers = [
+                TicketItemModifier(self.location_id, **modifier)
+                for modifier
+                in modifiers
+            ]
 
 
 class TicketItemModifier(OmnivoreTicketItemResource):
