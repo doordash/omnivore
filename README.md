@@ -1,4 +1,4 @@
-# Omnivore Python library
+# Omnivore Python library [![Circle CI](https://circleci.com/gh/chillbear/omnivore.svg?style=svg&circle-token=631d18f785e1a482771a2223e3fad866703fc856)](https://circleci.com/gh/chillbear/omnivore)
 
 ## Installation
 
