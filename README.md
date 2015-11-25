@@ -105,8 +105,6 @@ We enforce linting on the code with flake8. Run with `flake8 omnivore` from the 
 
 - create method for Discount
 - allow refresh of cached properties
-- ModifierGroup::option
-- TicketItemModifier::modifier
 - remove has_embedded_objects for things like nested ticket
   resources where they will never show up as an embedded object
 - price_levels

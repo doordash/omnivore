@@ -116,6 +116,13 @@ class Ticket(OmnivoreLocationResource):
                 in discounts
             ]
 
+            ticket_items = get_embedded_object(kwargs, 'items')
+            self.items = [
+                TicketItem(self.location_id, self.id, **ti)
+                for ti
+                in ticket_items
+            ]
+
             order_type = get_embedded_object(kwargs, 'order_type')
             self.order_type = OrderType(self.location_id, **order_type)
 
@@ -207,12 +214,6 @@ class Ticket(OmnivoreLocationResource):
     # Retrieving related objects
 
     @cached_property
-    def items(self):
-        res = client.get(TicketItem.list_url(self.location_id, self.id))
-        ticket_items = get_embedded_object(res, 'items')
-        return [TicketItem(self.location_id, **ti) for ti in ticket_items]
-
-    @cached_property
     def payments(self):
         res = client.get(Payment.list_url(self.location_id, self.id))
         payments = get_embedded_object(res, 'payments')
@@ -282,7 +283,6 @@ class TicketItemModifier(OmnivoreTicketItemResource):
         self.quantity = kwargs['quantity']
 
         if has_embedded_objects(kwargs):
-            # TODO: API returns menu_modifier for nested objects?
             modifier = get_embedded_object(kwargs, 'menu_modifier')
             self.modifier = Modifier(self.location_id, **modifier)
 

@@ -55,8 +55,8 @@ class Menu(object):
     @cached_property
     def items(self):
         res = client.get(MenuItem.list_url(self.location_id))
-        items = get_embedded_object(res, 'items')
-        return [MenuItem(self.location_id, **i) for i in items]
+        menu_items = get_embedded_object(res, 'menu_items')
+        return [MenuItem(self.location_id, **mi) for mi in menu_items]
 
     @cached_property
     def modifiers(self):
@@ -126,15 +126,6 @@ class ModifierGroup(OmnivoreMenuItemResource):
         self.maximum = kwargs['maximum']
         self.required = kwargs['required']
 
-        # TODO: what is this supposed to return? options or modifiers or
-        # menuitemmodifiers?
-        # if has_embedded_objects(kwargs):
-        #     options =
-
-    # Retrieving related objects
-
-    @cached_property
-    def modifiers(self):
-        res = client.get(Modifier.list_url(self.location_id))
-        modifiers = get_embedded_object(res, 'modifiers')
-        return [Modifier(self.location_id, **m) for m in modifiers]
+        if has_embedded_objects(kwargs):
+            options = get_embedded_object(kwargs, 'options')
+            self.options = [Modifier(self.location_id, **m) for m in options]
