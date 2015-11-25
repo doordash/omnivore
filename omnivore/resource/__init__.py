@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from omnivore import client
 
 
@@ -39,14 +40,12 @@ class OmnivoreResource(object):
 
     def __repr__(self):
         attrs = [
-            '\'%s\': %s' % (key, repr(getattr(self, key)))
+            '\'{}\': {}'.format(key, repr(getattr(self, key)))
             for key
             in self.__dict__
         ]
 
-        return '\n{\n\t%s\n}' % (
-            '\n\t'.join(attrs),
-        )
+        return '\n{{\n\t{}\n}}'.format('\n\t'.join(attrs))
 
 
 class OmnivoreLocationResource(OmnivoreResource):
