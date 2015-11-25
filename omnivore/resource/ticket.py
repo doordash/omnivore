@@ -1,4 +1,4 @@
-from omnivore import client
+from omnivore import client, error
 from omnivore.resource import OmnivoreLocationResource
 from omnivore.resource.base import (
     Employee,
@@ -180,6 +180,30 @@ class Ticket(OmnivoreLocationResource):
         res = client.delete(ticket_item.retrieve_url)
         self.refresh_from(**res)
 
+    def pay(self, type, amount, tip, **kwargs):
+        if type not in Payment.types:
+            msg = 'Unknown payment type: \'{}\'. Allowed types: {}'.format(
+                type,
+                Payment.types
+            )
+            raise error.APIError(msg)
+
+        if type == '3rd_party':
+            if 'tender_type' or 'payment_source' not in kwargs:
+                msg = 'Missing tender_type or payment_source for payment'
+                raise APIError(msg)
+        else:
+            if 'card_info' not in kwargs:
+                # TODO: verify required card_info fields
+                raise APIError('Missing card_info for payment')
+
+        data = dict(type=type, amount=amount, tip=tip, **kwargs)
+
+        res = client.post(Payment.list_url(self.location_id, self.id), data)
+
+        self.refresh_from(**res.pop('ticket'))
+        return res
+
     # Retrieving related objects
 
     @cached_property
@@ -286,7 +310,7 @@ class TicketItemDiscount(OmnivoreTicketItemResource):
 
 class Payment(OmnivoreTicketResource):
 
-    # TODO: Card Not Present, Card Present, 3rd Party, Gift Card
+    types = ['card_not_present', 'card_present', '3rd_party', 'gift_card']
 
     @classmethod
     def list_url(cls, location_id, ticket_id):

@@ -62,9 +62,17 @@ ticket = location.open_ticket(
     auto_send
 )
 print ticket
-ticket.void()
+# ticket.void()
 
-# TODO: payments
+tip = ticket.totals['total'] * .2
+print ticket.pay('3rd_party', ticket.totals['due'], tip, tender_type='xxx, payment_source='doordash')
+# {
+#     "amount_paid": 100,
+#     "accepted": True,
+#     "ticket_closed": True,
+#     "balance_remaining": 0,
+#     "type": "3rd_party"
+# }
 ```
 
 Interacting with menus:
@@ -95,7 +103,7 @@ We enforce linting on the code with flake8. Run with `flake8 omnivore` from the 
 
 ### TODOs
 
-- create and delete methods for Discount, Payment
+- create method for Discount
 - allow refresh of cached properties
 - ModifierGroup::option
 - TicketItemModifier::modifier
