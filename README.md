@@ -92,3 +92,15 @@ To run the test suite, run `py.test` from the project root.
 ### Linting
 
 We enforce linting on the code with flake8. Run with `flake8 omnivore` from the project root.
+
+### TODOs
+
+- create and delete methods for Discount, Payment
+- allow refresh of cached properties
+- ModifierGroup::option
+- TicketItemModifier::modifier
+- remove has_embedded_objects for things like nested ticket
+  resources where they will never show up as an embedded object
+- price_levels
+- allow addition of multiple TicketItems
+- tests
