@@ -35,15 +35,7 @@ def get(url):
     except Exception, e:
         handle_request_error(e)
 
-    try:
-        json = res.json()
-    except ValueError, e:
-        handle_parse_error(e)
-
-    if not (200 <= res.status_code < 300):
-        handle_error_code(json, res.status_code, res.headers)
-
-    return json
+    return handle_response(res)
 
 
 def post(url, json):
@@ -52,6 +44,19 @@ def post(url, json):
     except Exception, e:
         handle_request_error(e)
 
+    return handle_response(res)
+
+
+def delete(url):
+    try:
+        res = requests.delete(url, headers=get_headers())
+    except Exception, e:
+        handle_request_error(e)
+
+    return handle_response(res)
+
+
+def handle_response(res):
     try:
         json = res.json()
     except ValueError, e:
