@@ -20,6 +20,8 @@ Please see the [Omnivore API Documentation](https://panel.omnivore.io/docs/api/)
 
 ### Usage
 
+This library has only been tested using Python 2.7.10.
+
 Getting and interacting with locations:
 
 ```python
