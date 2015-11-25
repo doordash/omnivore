@@ -140,7 +140,44 @@ class Ticket(OmnivoreLocationResource):
 
     def void(self):
         res = client.post(self.instance_url, {'void': True})
+        self.refresh_from(**res)
 
+    def add_item(self, menu_item, quantity,
+                 price_level=None, comment=None,
+                 modifiers=None, discounts=None):
+        data = {
+            'menu_item': menu_item.id,
+            'quantity': quantity
+        }
+
+        if price_level:
+            data['price_level'] = price_level
+
+        if comment:
+            if not isinstance(comment, str):
+                raise error.APIError('Comment must be an ascii string')
+            if len(comment) > 20:
+                raise error.APIError('Max comment length is 20 characters')
+
+            data['comment'] = comment
+
+        if modifiers:
+            data['modifiers'] = modifiers
+
+        if discounts:
+            data['discounts'] = discounts
+
+        res = client.post(
+            TicketItem.list_url(self.location_id, self.id),
+            data
+        )
+
+        self.refresh_from(**res)
+
+    # TODO: allow addition of multiple TicketItems
+
+    def void_item(self, ticket_item):
+        res = client.delete(ticket_item.retrieve_url)
         self.refresh_from(**res)
 
     # Retrieving related objects
@@ -178,8 +215,6 @@ class TicketDiscount(OmnivoreTicketResource):
 
 
 class TicketItem(OmnivoreTicketResource):
-
-    # TODO: add, void
 
     @classmethod
     def list_url(cls, location_id, ticket_id):
