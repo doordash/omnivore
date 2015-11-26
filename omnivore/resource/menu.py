@@ -21,7 +21,7 @@ class OmnivoreMenuItemResource(OmnivoreMenuResource):
 
     @classmethod
     def list_url(cls, location_id, item_id):
-        base_url = super(OmnivoreMenuResource, cls).list_url(location_id)
+        base_url = super(OmnivoreMenuItemResource, cls).list_url(location_id)
         return base_url + 'items/' + item_id + '/'
 
     @classmethod
@@ -30,7 +30,7 @@ class OmnivoreMenuItemResource(OmnivoreMenuResource):
 
     def __init__(self, location_id, item_id, **kwargs):
         self.item_id = item_id
-        super(OmnivoreTicketResource, self).__init__(location_id, **kwargs)
+        super(OmnivoreMenuItemResource, self).__init__(location_id, **kwargs)
 
     @property
     def instance_url(self):
@@ -106,7 +106,11 @@ class MenuItem(OmnivoreMenuResource):
     def modifier_groups(self):
         res = client.get(ModifierGroup.list_url(self.location_id, self.id))
         groups = get_embedded_object(res, 'modifier_groups')
-        return [ModifierGroup(self.location_id, **mg) for mg in groups]
+        return [
+            ModifierGroup(self.location_id, self.id, **mg)
+            for mg
+            in groups
+        ]
 
 
 class Modifier(OmnivoreMenuResource):
