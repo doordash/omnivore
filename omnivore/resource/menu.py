@@ -1,4 +1,6 @@
+from __future__ import unicode_literals
 from omnivore import client
+from omnivore.resource import PrintableResource
 from omnivore.resource.base import OmnivoreLocationResource
 from omnivore.util import (
     cached_property,
@@ -39,7 +41,7 @@ class OmnivoreMenuItemResource(OmnivoreMenuResource):
         )
 
 
-class Menu(object):
+class Menu(PrintableResource):
 
     def __init__(self, location_id):
         self.location_id = location_id
@@ -63,6 +65,12 @@ class Menu(object):
         res = client.get(Modifier.list_url(self.location_id))
         modifiers = get_embedded_object(res, 'modifiers')
         return [Modifier(self.location_id, **m) for m in modifiers]
+
+    def __unicode__(self):
+        return '<Omnivore::{} {}>'.format(
+            self.__class__.__name__,
+            self.location_id
+        )
 
 
 class Category(OmnivoreMenuResource):

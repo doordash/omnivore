@@ -2,7 +2,25 @@ from __future__ import unicode_literals
 from omnivore import client
 
 
-class OmnivoreResource(object):
+class PrintableResource(object):
+
+    def __unicode__(self):
+        return '<Omnivore::{} {}>'.format(self.__class__.__name__, self.id)
+
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
+    def __repr__(self):
+        attrs = [
+            '\'{}\': {}'.format(key, repr(getattr(self, key)))
+            for key
+            in self.__dict__
+        ]
+
+        return '\n{{\n\t{}\n}}'.format('\n\t'.join(attrs))
+
+
+class OmnivoreResource(PrintableResource):
 
     @classmethod
     def list_url(cls):
@@ -31,21 +49,6 @@ class OmnivoreResource(object):
     @property
     def instance_url(self):
         return self.__class__.retrieve_url(self.id)
-
-    def __unicode__(self):
-        return '<Omnivore::{} {}>'.format(self.__class__.__name__, self.id)
-
-    def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __repr__(self):
-        attrs = [
-            '\'{}\': {}'.format(key, repr(getattr(self, key)))
-            for key
-            in self.__dict__
-        ]
-
-        return '\n{{\n\t{}\n}}'.format('\n\t'.join(attrs))
 
 
 class OmnivoreLocationResource(OmnivoreResource):
