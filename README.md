@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-pip install git+ssh://git@github.com/chillbear/omnivore.git@master
+pip install git+git://github.com/chillbear/omnivore.git@master
 ```
 
 To install from source, run
@@ -26,6 +26,8 @@ Getting and interacting with locations:
 
 ```python
 import omnivore
+
+omnivore.api_key = 'xxx'
 
 locations = omnivore.Location.all()
 location = locations[0]
