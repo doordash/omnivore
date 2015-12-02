@@ -81,16 +81,22 @@ class Ticket(OmnivoreLocationResource):
 
     @classmethod
     def open(cls, location_id, employee_id, order_type_id, revenue_center_id,
-             table_id, guest_count, name, auto_send):
+             table_id, guest_count=None, name=None, auto_send=None):
         data = {
             'employee': employee_id,
             'order_type': order_type_id,
             'revenue_center': revenue_center_id,
-            'table': table_id,
-            'guest_count': guest_count,
-            'name': name,
-            'auto_send': auto_send
+            'table': table_id
         }
+
+        if guest_count:
+            data['guest_count'] = guest_count
+
+        if name:
+            data['name'] = name
+
+        if auto_send:
+            data['auto_send'] = auto_send
 
         res = client.post(cls.list_url(location_id), data)
 
