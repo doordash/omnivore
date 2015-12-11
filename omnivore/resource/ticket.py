@@ -134,7 +134,11 @@ class Ticket(OmnivoreLocationResource):
             self.order_type = OrderType(self.location_id, **order_type)
 
             payments = get_embedded_object(kwargs, 'payments')
-            self.payments = [Payment(self.location_id, **p) for p in payments]
+            self.payments = [
+                Payment(self.location_id, self.id, **p)
+                for p
+                in payments
+            ]
 
             revenue_center = get_embedded_object(kwargs, 'revenue_center')
             self.revenue_center = RevenueCenter(
@@ -209,13 +213,13 @@ class Ticket(OmnivoreLocationResource):
             raise error.APIError(msg)
 
         if type == '3rd_party':
-            if 'tender_type' or 'payment_source' not in kwargs:
+            if 'tender_type' not in kwargs or 'payment_source' not in kwargs:
                 msg = 'Missing tender_type or payment_source for payment'
-                raise APIError(msg)
+                raise error.APIError(msg)
         else:
             if 'card_info' not in kwargs:
                 # TODO: verify required card_info fields
-                raise APIError('Missing card_info for payment')
+                raise error.APIError('Missing card_info for payment')
 
         data = dict(type=type, amount=amount, tip=tip, **kwargs)
 
@@ -272,7 +276,12 @@ class TicketItem(OmnivoreTicketResource):
 
             modifiers = get_embedded_object(kwargs, 'modifiers')
             self.modifiers = [
-                TicketItemModifier(self.location_id, **modifier)
+                TicketItemModifier(
+                    self.location_id,
+                    self.ticket_id,
+                    self.id,
+                    **modifier
+                )
                 for modifier
                 in modifiers
             ]
