@@ -124,6 +124,20 @@ class Modifier(OmnivoreMenuResource):
         self.price_per_unit = kwargs['price_per_unit']
         self.price_levels = kwargs['price_levels']
 
+    def to_ticket_modifier(self, quantity, price_level=None, comment=None):
+        data = {
+            'modifier': self.id,
+            'quantity': quantity
+        }
+
+        if price_level:
+            data['price_level'] = price_level
+
+        if comment:
+            data['comment'] = comment
+
+        return data
+
 
 class ModifierGroup(OmnivoreMenuItemResource):
 
