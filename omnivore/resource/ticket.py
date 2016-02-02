@@ -147,7 +147,8 @@ class Ticket(OmnivoreLocationResource):
             )
 
             table = get_embedded_object(kwargs, 'table')
-            self.table = Table(self.location_id, **table)
+            if table:
+                self.table = Table(self.location_id, **table)
 
             voided_items = get_embedded_object(kwargs, 'voided_items')
             self.voided_items = [
