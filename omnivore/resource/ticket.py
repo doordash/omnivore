@@ -89,13 +89,13 @@ class Ticket(OmnivoreLocationResource):
             'table': table_id
         }
 
-        if guest_count:
+        if guest_count is not None:
             data['guest_count'] = guest_count
 
-        if name:
+        if name is not None:
             data['name'] = name
 
-        if auto_send:
+        if auto_send is not None:
             data['auto_send'] = auto_send
 
         res = client.post(cls.list_url(location_id), data)
