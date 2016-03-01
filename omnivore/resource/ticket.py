@@ -199,7 +199,14 @@ class Ticket(OmnivoreLocationResource):
 
         self.refresh_from(**res)
 
-    # TODO: allow addition of multiple TicketItems
+    def add_items(self, items):
+        # TODO: all the stuff in add_item
+        res = client.post(
+            TicketItem.list_url(self.location_id, self.id),
+            items
+        )
+
+        self.refresh_from(**res)
 
     def void_item(self, ticket_item):
         res = client.delete(ticket_item.retrieve_url)
