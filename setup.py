@@ -23,7 +23,7 @@ setup(
     author_email='alex.grover@doordash.com',
     url='https://github.com/doordash/omnivore',
     packages=['omnivore', 'omnivore.resource', 'omnivore.test'],
-    install_requires=['requests == 2.8.1'],
+    install_requires=['requests >= 2.8.1'],
     test_suite='pytest',  # 'omnivore.test.all?'
     tests_require=['pytest'],  # TODO: stripe uses unittest2 and mock?
     classifiers=[
