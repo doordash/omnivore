@@ -1,6 +1,6 @@
 api_base = 'https://api.omnivore.io/'
 api_key = None
-api_version = '0.1'
+api_version = '1.0'
 
 from omnivore.resource.base import (  # noqa
     Location,
