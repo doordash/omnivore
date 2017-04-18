@@ -186,9 +186,11 @@ class Discount(OmnivoreLocationResource):
     def refresh_from(self, **kwargs):
         self.applies_to = kwargs['applies_to']
         self.available = kwargs['available']
-        self.max_value = kwargs['max_value']
+        self.max_amount = kwargs['max_amount']
+        self.max_percent = kwargs['max_percent']
         self.min_ticket_total = kwargs['min_ticket_total']
-        self.min_value = kwargs['min_value']
+        self.min_amount = kwargs['min_amount']
+        self.min_percent = kwargs['min_percent']
         self.name = kwargs['name']
         self.open = kwargs['open']
         self.type = kwargs['type']
