@@ -143,10 +143,7 @@ class ModifierGroup(OmnivoreMenuItemResource):
 
     def refresh_from(self, **kwargs):
         self.name = kwargs['name']
-        self.minimum = kwargs['minimum']
-        self.maximum = kwargs['maximum']
-        self.required = kwargs['required']
 
         if has_embedded_objects(kwargs):
-            options = get_embedded_object(kwargs, 'options')
-            self.options = [Modifier(self.location_id, **m) for m in options]
+            modifiers = get_embedded_object(kwargs, 'modifiers')
+            self.modifiers = [Modifier(self.location_id, **m) for m in modifiers]
