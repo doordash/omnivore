@@ -91,10 +91,10 @@ class MenuItem(OmnivoreMenuResource):
 
     def refresh_from(self, **kwargs):
         self.name = kwargs['name']
-        self.price = kwargs['price']
-        self.price_levels = kwargs['price_levels']
+        self.price_per_unit = kwargs['price_per_unit']
         self.in_stock = kwargs['in_stock']
-        self.modifier_groups_count = kwargs['modifier_groups_count']
+        option_sets = get_embedded_object(kwargs, 'option_sets')
+        self.modifier_groups_count = len(option_sets)
 
     # Retrieving related objects
 
