@@ -274,7 +274,7 @@ class TicketItem(OmnivoreTicketResource):
     def refresh_from(self, **kwargs):
         self.comment = kwargs['comment']
         self.name = kwargs['name']
-        self.price_per_unit = kwargs['price_per_unit']
+        self.price = kwargs['price']
         self.quantity = kwargs['quantity']
         self.sent = kwargs['sent']
 
