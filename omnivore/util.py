@@ -29,3 +29,11 @@ def get_embedded_object(obj, key):
 
 def has_embedded_objects(obj):
     return '_embedded' in obj
+
+
+def get_linked_objects(obj, key):
+    return obj['_links'][key]
+
+
+def has_linked_objects(obj):
+    return '_links' in obj
