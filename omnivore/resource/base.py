@@ -106,13 +106,6 @@ class Table(OmnivoreLocationResource):
         self.seats = kwargs['seats']
 
         if has_embedded_objects(kwargs):
-            open_tickets = get_embedded_object(kwargs, 'open_tickets')
-            self.open_tickets = [
-                Ticket(self.location_id, **ticket)
-                for ticket
-                in open_tickets
-            ]
-
             revenue_center = get_embedded_object(kwargs, 'revenue_center')
             self.revenue_center = RevenueCenter(
                 self.location_id,
