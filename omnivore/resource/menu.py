@@ -118,7 +118,6 @@ class Modifier(OmnivoreMenuResource):
     def refresh_from(self, **kwargs):
         self.name = kwargs['name']
         self.price_per_unit = kwargs['price_per_unit']
-        self.price_levels = kwargs['price_levels']
 
     def to_ticket_modifier(self, quantity, price_level=None, comment=None):
         data = {
