@@ -82,10 +82,6 @@ class Category(OmnivoreMenuResource):
     def refresh_from(self, **kwargs):
         self.name = kwargs['name']
 
-        if has_embedded_objects(kwargs):
-            items = get_embedded_object(kwargs, 'items')
-            self.items = [MenuItem(self.location_id, **i) for i in items]
-
 
 class MenuItem(OmnivoreMenuResource):
 
