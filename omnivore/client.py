@@ -34,7 +34,7 @@ def get_headers():
 def get(url):
     try:
         res = requests.get(url, headers=get_headers())
-    except Exception, e:
+    except ApiException as e:
         handle_request_error(e)
 
     return handle_response(res)
@@ -43,7 +43,7 @@ def get(url):
 def post(url, json):
     try:
         res = requests.post(url, headers=get_headers(), json=json)
-    except Exception, e:
+    except ApiException as e:
         handle_request_error(e)
 
     return handle_response(res)
@@ -52,7 +52,7 @@ def post(url, json):
 def delete(url):
     try:
         res = requests.delete(url, headers=get_headers())
-    except Exception, e:
+    except ApiException as e:
         handle_request_error(e)
 
     return handle_response(res)
@@ -61,7 +61,7 @@ def delete(url):
 def handle_response(res):
     try:
         json = res.json()
-    except ValueError, e:
+    except ApiException as e:
         handle_parse_error(e)
 
     if not (200 <= res.status_code < 300):
